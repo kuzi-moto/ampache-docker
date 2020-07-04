@@ -12,6 +12,8 @@ Docker container for Ampache, a web based audio/video streaming application and 
 
 ## Usage
 
+### docker run
+
 To run official builds from docker hub you can run these commands:
 
 To run the current Ampache master (stable) branch
@@ -28,9 +30,9 @@ docker run --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 ampache/a
 
 The develop tag is set up to use git updates so you don't have to rebuild your images to stay up to date with development.
 
-### With docker-compose
+### docker-compose
 
-Included in the repository is a simple docker-compose.yml file to get started. To use simply do:
+This method is recommended as it creates persistent volumes for important data. Included in the [GitHub repository](https://github.com/ampache/ampache-docker/blob/master/docker-compose.yml) is a simple `docker-compose.yml` file to get started. Use the following commands:
 
 ```bash
 docker-compose up -d
@@ -50,8 +52,9 @@ The automated builds for the official repo are now built for linux/amd64, linux/
 
 ## Installation
 
-* MySQL Administrative Username: root    # leave alone
-* MySQL Administrative Password: (blank) # leave alone
+* MySQL Administrative Username: admin
+* MySQL Administrative Password: (see output of container)
+  * The logs will show a line that says `mysql -uadmin -pyh1r1AkluheY -h<host> -P<port>`. The password is everything directly after `-p`.
 * Check "Create Database User"
 * Ampache Database Username: ampache
 * Ampache Database User Password: ampache # or whatever you want, but remember it on the next page
