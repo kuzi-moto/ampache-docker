@@ -2,7 +2,7 @@ version: '3'
 
 services:
   ampache:
-    image: ampache/ampache
+    image: ampache/ampache:test
     container_name: ampache
     restart: unless-stopped
     ports:

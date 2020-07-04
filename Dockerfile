@@ -20,15 +20,6 @@ COPY create_mysql_admin_user.sh run.sh /
 COPY 001-ampache.conf /etc/apache2/sites-available/
 COPY ampache.cfg.* /var/temp/
 
-RUN     chmod 0775 /*.sh \
-    &&  apt-get update \
-    &&  apt-get -qq install --no-install-recommends \
-        wget \
-        gnupg \
-        ca-certificates \
-    &&  echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list.d/videolan.list \
-    &&  wget -qO - https://download.videolan.org/pub/debian/videolan-apt.asc | apt-key add -
-
 RUN     apt-get update \
     &&  apt-get -qq install --no-install-recommends \
           apache2 \
@@ -52,22 +43,17 @@ RUN     apt-get update \
           php-mysql \
           php-xml \
           pwgen \
-          vorbis-tools
-
-RUN     mkdir -p /var/run/mysqld \
+          vorbis-tools \
+    &&  rm -rf /var/lib/mysql/* /var/www/* /etc/apache2/sites-enabled/* \
+    &&  mkdir -p /var/run/mysqld \
     &&  chown -R mysql /var/run/mysqld \
-    &&  rm -rf /var/lib/mysql/* /var/www/* /etc/apache2/sites-enabled/*
-
-COPY --from=Builder --chown=www-data:www-data /app /var/www
-
-RUN     apt-get purge -qq --autoremove \
-            ca-certificates \
-            gnupg \
-            wget \
+    &&  chmod 0775 /*.sh \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
     &&  a2enmod rewrite \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache \
     &&  echo '30 7 * * *   /usr/bin/php /var/www/bin/catalog_update.inc' | crontab -u www-data -
+
+COPY --from=Builder --chown=www-data:www-data /app /var/www
 
 VOLUME ["/etc/mysql", "/var/lib/mysql", "/media", "/var/www/config", "/var/www/themes"]
 EXPOSE 80
