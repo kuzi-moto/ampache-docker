@@ -16,16 +16,13 @@ LABEL maintainer="lachlan-00"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV MYSQL_PASS **Random**
 
-COPY create_mysql_admin_user.sh run.sh /
-COPY 001-ampache.conf /etc/apache2/sites-available/
-COPY ampache.cfg.* /var/temp/
-
 RUN     apt-get update \
     &&  apt-get -qq install --no-install-recommends \
           apache2 \
           cron \
           ffmpeg \
           flac \
+          gosu \
           inotify-tools \
           lame \
           libavcodec-extra \
@@ -43,11 +40,11 @@ RUN     apt-get update \
           php-mysql \
           php-xml \
           pwgen \
+          supervisor \
           vorbis-tools \
-    &&  rm -rf /var/lib/mysql/* /var/www/* /etc/apache2/sites-enabled/* \
+    &&  rm -rf /var/lib/mysql/* /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
     &&  mkdir -p /var/run/mysqld \
     &&  chown -R mysql /var/run/mysqld \
-    &&  chmod 0775 /*.sh \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
     &&  a2enmod rewrite \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache \
@@ -58,4 +55,11 @@ COPY --from=Builder --chown=www-data:www-data /app /var/www
 VOLUME ["/etc/mysql", "/var/lib/mysql", "/media", "/var/www/config", "/var/www/themes"]
 EXPOSE 80
 
+COPY create_mysql_admin_user.sh run.sh inotifywatch.sh /
+COPY 001-ampache.conf /etc/apache2/sites-available/
+COPY --chown=www-data:www-data ampache.cfg.* /var/temp/
+COPY docker-entrypoint.sh /usr/local/bin
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/run.sh"]

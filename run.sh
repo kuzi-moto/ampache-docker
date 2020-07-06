@@ -12,19 +12,11 @@ else
     echo "=> Using an existing volume of MySQL"
 fi
 
-if [[ -f /var/temp/ampache.cfg.php && ! -f /var/www/config/ampache.cfg.php ]]; then
-    mv /var/temp/ampache.cfg.php /var/www/config/ampache.cfg.php
-fi
-if [[ ! -f /var/www/config/ampache.cfg.php ]]; then
-    mv /var/temp/ampache.cfg.php.dist /var/www/config/ampache.cfg.php.dist
-fi
-
-
 # Start apache in the background
-service apache2 start
+#service apache2 start
 
 # Start cron in the background
-cron
+#cron
 
 # Start a process to watch for changes in the library with inotify
 (
@@ -36,4 +28,4 @@ done
 ) &
 
 # run this in the foreground so Docker won't exit
-exec mysqld_safe
+exec /usr/bin/supervisord
