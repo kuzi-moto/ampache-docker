@@ -47,8 +47,8 @@ RUN     apt-get update \
           php-xml \
           pwgen \
           supervisor \
-          vorbis-tools \
-RUN     /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
+          vorbis-tools
+RUN     rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
     &&  a2enmod rewrite \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache \
