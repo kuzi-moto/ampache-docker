@@ -15,6 +15,13 @@ LABEL maintainer="lachlan-00"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN     apt-get -q -q update \
+    &&  apt-get -q -q -y install --no-install-recommends software-properties-common
+RUN     apt-add-repository contrib \
+    &&  apt-add-repository non-free
+RUN     apt-get -q -q update \
+    &&  apt-get -q -q -y install --no-install-recommends libdvd-pkg
+RUN     dpkg-reconfigure libdvd-pkg
 RUN     apt-get update \
     &&  apt-get -qq install --no-install-recommends \
           apache2 \
