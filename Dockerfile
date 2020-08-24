@@ -59,7 +59,7 @@ COPY --from=Builder --chown=www-data:www-data /app /var/www
 VOLUME ["/media", "/var/www/config", "/var/www/themes"]
 EXPOSE 80
 
-COPY run.sh inotifywatch.sh cron.sh apache2.sh /usr/local/bin
+COPY run.sh inotifywatch.sh cron.sh apache2.sh /usr/local/bin/
 COPY 001-ampache.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data ampache.cfg.* /var/temp/
 COPY docker-entrypoint.sh /usr/local/bin
