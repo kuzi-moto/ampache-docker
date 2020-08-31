@@ -16,7 +16,8 @@ LABEL maintainer="lachlan-00"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN     apt-get -q -q update \
-    &&  apt-get -q -q -y install --no-install-recommends software-properties-common
+    &&  apt-get -q -q -y install --no-install-recommends \
+          software-properties-common
 RUN     apt-add-repository contrib \
     &&  apt-add-repository non-free
 RUN     apt-get -q -q update \
@@ -48,6 +49,12 @@ RUN     apt-get update \
           pwgen \
           supervisor \
           vorbis-tools
+RUN     apt-get -qq purge \
+          libdvd-pkg \
+          lsb-release \
+          python3 \
+          python3-minimal \
+          software-properties-common
 RUN     rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
     &&  a2enmod rewrite \
