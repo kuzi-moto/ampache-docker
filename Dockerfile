@@ -17,13 +17,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN     apt-get -q -q update \
     &&  apt-get -q -q -y install --no-install-recommends \
-          software-properties-common
-RUN     apt-add-repository contrib \
-    &&  apt-add-repository non-free
-RUN     apt-get -q -q update \
-    &&  apt-get -q -q -y install --no-install-recommends libdvd-pkg
-RUN     dpkg-reconfigure libdvd-pkg
-RUN     apt-get update \
+          software-properties-common \
+    &&  apt-add-repository contrib \
+    &&  apt-add-repository non-free \
+    &&  apt-get -q -q update \
+    &&  apt-get -q -q -y install --no-install-recommends libdvd-pkg \
+    &&  dpkg-reconfigure libdvd-pkg \
+    &&  apt-get update \
     &&  apt-get -qq install --no-install-recommends \
           apache2 \
           cron \
@@ -48,19 +48,19 @@ RUN     apt-get update \
           php-xml \
           pwgen \
           supervisor \
-          vorbis-tools
-RUN     rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
+          vorbis-tools \
+    &&  rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
     &&  a2enmod rewrite \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache /var/www/docs \
-    &&  echo '30 7 * * *   /usr/bin/php /var/www/bin/catalog_update.inc' | crontab -u www-data -
-RUN     apt-get -qq purge \
+    &&  echo '30 7 * * *   /usr/bin/php /var/www/bin/catalog_update.inc' | crontab -u www-data - \
+    &&  apt-get -qq purge \
           libdvd-pkg \
           lsb-release \
           python3 \
           python3-minimal \
-          software-properties-common
-RUN     apt-get -qq autoremove
+          software-properties-common \
+    &&  apt-get -qq autoremove
 
 COPY --from=Builder --chown=www-data:www-data /app /var/www
 
