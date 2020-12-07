@@ -40,7 +40,7 @@ RUN     apt-get -q -q update \
           zip \
           unzip \
     &&  rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
-    &&  wget -q -O /tmp/ampache.zip https://github.com/ampache/ampache/releases/download/${VERSION}/ampache-${VERSION}_all.zip \
+    &&  wget -O /tmp/ampache.zip https://github.com/ampache/ampache/releases/download/${VERSION}/ampache-${VERSION}_all.zip \
     &&  unzip /tmp/ampache.zip -d /var/www/ \
     &&  mv /var/www/public/rest/.htac* /var/www/public/rest/.htaccess \
     &&  mv /var/www/public/play/.htac* /var/www/public/play/.htaccess \
