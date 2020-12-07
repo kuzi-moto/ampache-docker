@@ -65,7 +65,7 @@ RUN     apt-get -q -q update \
           wget \
     &&  apt-get -qq autoremove
 
-VOLUME ["/media", "/var/www/src/config", "/var/www/themes"]
+VOLUME ["/media", "/var/www/config", "/var/www/themes"]
 EXPOSE 80
 
 COPY run.sh inotifywatch.sh cron.sh apache2.sh /usr/local/bin/
