@@ -40,13 +40,12 @@ RUN     apt-get -q -q update \
           zip \
           unzip \
     &&  rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
-    &&  wget -q -O /tmp/master.zip https://github.com/ampache/ampache/releases/download/untagged-a0b44510c6725c12dcdf/ampache-${VERSION}_all.zip \
-    &&  unzip /tmp/master.zip -d /var/www/ \
-    &&  mv /var/www/rest/.htac* /var/www/rest/.htaccess \
-    &&  mv /var/www/play/.htac* /var/www/play/.htaccess \
-    &&  mv /var/www/channel/.htac* /var/www/channel/.htaccess \
-    &&  rm -rf /var/www/.git* /var/www/.php_cs /var/www/.sc /var/www/.scrutinizer.yml \
-          /var/www/.tgitconfig /var/www/.travis.yml /var/www/.tx /var/www/*.md \
+    &&  wget -q -O /tmp/ampache.zip https://github.com/ampache/ampache/releases/download/${VERSION}/ampache-${VERSION}_all.zip \
+    &&  unzip /tmp/ampache.zip -d /var/www/ \
+    &&  mv /var/www/public/rest/.htac* /var/www/public/rest/.htaccess \
+    &&  mv /var/www/public/play/.htac* /var/www/public/play/.htaccess \
+    &&  mv /var/www/public/channel/.htac* /var/www/public/channel/.htaccess \
+    &&  rm -rf  /var/www/.php_cs /var/www/*.md \
     &&  chown -R www-data:www-data /var/www \
     &&  chmod -R 775 /var/www \
     &&  ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/ \
@@ -61,7 +60,7 @@ RUN     apt-get -q -q update \
           software-properties-common \
     &&  apt-get -qq autoremove
 
-VOLUME ["/media", "/var/www/config", "/var/www/themes"]
+VOLUME ["/media", "/var/www/src/config", "/var/www/themes"]
 EXPOSE 80
 
 COPY run.sh inotifywatch.sh cron.sh apache2.sh /usr/local/bin/
