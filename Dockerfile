@@ -34,7 +34,6 @@ RUN     apt-get -q -q update \
           php-json \
           php-mysql \
           php-xml \
-          pwgen \
           supervisor \
           vorbis-tools \
           zip \
@@ -58,6 +57,7 @@ RUN     apt-get -q -q update \
           python3 \
           python3-minimal \
           software-properties-common \
+          unzip \
     &&  apt-get -qq autoremove
 
 VOLUME ["/media", "/var/www/src/config", "/var/www/themes"]
