@@ -13,7 +13,7 @@ RUN     apt-get -q -q update \
     &&  apt-get -q -q -y install --no-install-recommends libdvd-pkg \
     &&  dpkg-reconfigure libdvd-pkg \
     &&  apt-get update \
-    &&  apt-get -qq install --no-install-recommends \
+    &&  apt-get install --no-install-recommends \
           apache2 \
           cron \
           ffmpeg \
