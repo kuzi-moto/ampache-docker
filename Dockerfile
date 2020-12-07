@@ -9,11 +9,8 @@ RUN     apt-get -q -q update \
           software-properties-common \
     &&  apt-add-repository contrib \
     &&  apt-add-repository non-free \
-    &&  apt-get -q -q update \
-    &&  apt-get -q -q -y install --no-install-recommends libdvd-pkg \
-    &&  dpkg-reconfigure libdvd-pkg \
     &&  apt-get update \
-    &&  apt-get install --no-install-recommends \
+    &&  apt-get -qq install --no-install-recommends \
           apache2 \
           cron \
           ffmpeg \
@@ -52,7 +49,6 @@ RUN     apt-get -q -q update \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache /var/www/docs \
     &&  echo '30 7 * * *   /usr/bin/php /var/www/bin/catalog_update.inc' | crontab -u www-data - \
     &&  apt-get -qq purge \
-          libdvd-pkg \
           lsb-release \
           python3 \
           python3-minimal \
