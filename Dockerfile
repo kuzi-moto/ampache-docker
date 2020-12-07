@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:stable
 LABEL maintainer="lachlan-00"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,6 +9,10 @@ RUN     apt-get -q -q update \
           software-properties-common \
     &&  apt-add-repository contrib \
     &&  apt-add-repository non-free \
+    &&  apt-get update \
+    &&  apt-get -qq install apt-transport-https lsb-release ca-certificates curl \
+    &&  curl -sSL -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
+    &&  sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
     &&  apt-get update \
     &&  apt-get -qq install --no-install-recommends \
           apache2 \
@@ -25,12 +29,12 @@ RUN     apt-get -q -q update \
           libtheora-dev \
           libvorbis-dev \
           libvpx-dev \
-          php \
-          php-curl \
-          php-gd \
-          php-json \
-          php-mysql \
-          php-xml \
+          php7.4 \
+          php7.4-curl \
+          php7.4-gd \
+          php7.4-json \
+          php7.4-mysql \
+          php7.4-xml \
           supervisor \
           vorbis-tools \
           unzip \
@@ -55,6 +59,9 @@ RUN     apt-get -q -q update \
           python3-minimal \
           software-properties-common \
           unzip \
+          apt-transport-https \
+          lsb-release \
+          ca-certificates \
     &&  apt-get -qq autoremove
 
 VOLUME ["/media", "/var/www/src/config", "/var/www/themes"]
