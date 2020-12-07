@@ -7,11 +7,12 @@ ARG VERSION=5.0.0-pre-release1
 RUN     apt-get -q -q update \
     &&  apt-get -q -q -y install --no-install-recommends \
           software-properties-common \
+          wget \
     &&  apt-add-repository contrib \
     &&  apt-add-repository non-free \
     &&  apt-get update \
     &&  apt-get -qq install apt-transport-https lsb-release ca-certificates curl \
-    &&  curl -sSL -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
+    &&  wget -q -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     &&  sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
     &&  apt-get update \
     &&  apt-get -qq install --no-install-recommends \
@@ -39,7 +40,6 @@ RUN     apt-get -q -q update \
           supervisor \
           vorbis-tools \
           unzip \
-          wget \
           zip \
     &&  rm -rf /var/www/* /etc/apache2/sites-enabled/* /var/lib/apt/lists/* \
     &&  wget -q -O /tmp/ampache.zip https://github.com/ampache/ampache/releases/download/${VERSION}/ampache-${VERSION}_all.zip \
@@ -55,14 +55,14 @@ RUN     apt-get -q -q update \
     &&  rm -rf /var/cache/* /tmp/* /var/tmp/* /root/.cache /var/www/docs \
     &&  echo '30 7 * * *   /usr/bin/php /var/www/bin/catalog_update.inc' | crontab -u www-data - \
     &&  apt-get -qq purge \
+          apt-transport-https \
+          ca-certificates \
           lsb-release \
           python3 \
           python3-minimal \
           software-properties-common \
           unzip \
-          apt-transport-https \
-          lsb-release \
-          ca-certificates \
+          wget \
     &&  apt-get -qq autoremove
 
 VOLUME ["/media", "/var/www/src/config", "/var/www/themes"]
