@@ -32,6 +32,7 @@ RUN     apt-get -q -q update \
           php7.4 \
           php7.4-curl \
           php7.4-gd \
+          php7.4-intl \
           php7.4-json \
           php7.4-mysql \
           php7.4-xml \
